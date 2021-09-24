@@ -22,7 +22,7 @@
 
 int main(void)
 {	
-	uint32_t i=0;
+
 	delay_init(); 
 	LED_Init(); 
     USART1_Config();
@@ -33,12 +33,8 @@ int main(void)
 //      // printf("USART1->DR = %x  \r\n",(uint32_t)&(USART1->DR)); 
 //		delay_ms(1000);
 //	}	
-	for(i=0;i<SENDBUFF_SIZE;i++ )
-	{
-		SendBuff[i]=0xff; 
-	}
-	USART_DMACmd(USART1,USART_DMAReq_Tx,ENABLE); 
-	GPIO_ResetBits(GPIOA,GPIO_Pin_2); 
+	
+	
 	while(1);
 }
 

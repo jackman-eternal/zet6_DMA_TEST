@@ -4,9 +4,9 @@
 #include "stm32f10x.h"
 #include <stdio.h>
 
-#define SENDBUFF_SIZE 9000
+#define SENDBUFF_SIZE 30
 
-extern uint8_t SendBuff[SENDBUFF_SIZE];
+
 
 void USART1_Config(void);
 void LED_Init(void);

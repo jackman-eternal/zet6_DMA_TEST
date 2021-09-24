@@ -1,21 +1,13 @@
-/**
-  ******************************************************************************
-  * @file    bsp_usart1.c
-  * @author  fire
-  * @version V1.0
-  * @date    2013-xx-xx
-  * @brief   重现c库printf函数到usart端口
-  ******************************************************************************
-  */ 
-  
-#include "bsp_usart1.h"
+  #include "bsp_usart1.h"
+//存储在flash的数据
+const uint8_t SendBuff_FLASH[SENDBUFF_SIZE]={0xAB,0XAC,0XAD,0XAE,0XAF,
+	                                         0XA5,0XA2,0XA0,0XAE,0XA3,
+	                                         0XBA,0XCB,0XFF,0X45,0X34,
+									         0X78,0X89,0X34,0X56,0X78,
+									         0X45,0XF5,0X3D,0X3A,0X45,
+									         0X34,0X56,0X3D,0X7B,0X89};
 uint8_t SendBuff[SENDBUFF_SIZE];
-
- /**
-  * @brief  USART1 GPIO 配置,工作模式配置。115200 8-N-1
-  * @param  无
-  * @retval 无
-  */
+ 
 void USART1_Config(void)
 {
 		GPIO_InitTypeDef GPIO_InitStructure;
@@ -108,6 +100,7 @@ void DMA_Config(void)
 //	NVIC_Init(&USART_DMA_NVIC);
 
 }
+
 //void DMA1_Channel4_IRQHandler(void)
 //{
 //	if( DMA_GetFlagStatus(DMA1_FLAG_TC4 )==SET )
@@ -117,5 +110,14 @@ void DMA_Config(void)
 //		DMA_ClearFlag(DMA1_FLAG_TC4); 
 //		
 //	}		
-//}	
-/*********************************************END OF FILE**********************/
+//}
+
+/*
+for(i=0;i<SENDBUFF_SIZE;i++ )
+{
+	SendBuff[i]=0xff; 
+}
+USART_DMACmd(USART1,USART_DMAReq_Tx,ENABLE); 
+GPIO_ResetBits(GPIOA,GPIO_Pin_2);
+*/	
+
