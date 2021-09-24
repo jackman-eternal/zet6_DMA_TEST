@@ -20,7 +20,7 @@
 #include "adc.h"
 
 
-extern uint16_t ADC_Value;  //转换的电压值通过DMA传到SRAM
+
 float ADC_Value_Temp;       //用于保存转换后的电压值
 
 int main(void)
@@ -29,8 +29,13 @@ int main(void)
 	delay_init(); 
 	LED_Init(); 
     USART1_Config();
+    ADC1_Init(); 
 
-
-	while(1);
+	while(1)
+	{
+		ADC_Value_Temp = (float)ADC_Value/4096*3.3;
+        delay_ms(10);
+        printf("ADC_Value_Temp = %f \r\n",ADC_Value_Temp)  ;		
+	}
 }
 

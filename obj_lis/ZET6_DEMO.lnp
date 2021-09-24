@@ -18,6 +18,7 @@
 "..\obj_lis\stm32f10x_usart.o"
 "..\obj_lis\stm32f10x_adc.o"
 "..\obj_lis\stm32f10x_dma.o"
+"..\obj_lis\stm32f10x_rtc.o"
 --library_type=microlib --strict --scatter "..\obj_lis\ZET6_DEMO.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
