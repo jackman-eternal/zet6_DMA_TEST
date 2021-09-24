@@ -1874,9 +1874,9 @@
       </Doc>
       <Doc>
         <Name>..\user\bsp_usart1.c</Name>
-        <ColumnNumber>58</ColumnNumber>
-        <TopLine>1</TopLine>
-        <CurrentLine>4</CurrentLine>
+        <ColumnNumber>0</ColumnNumber>
+        <TopLine>98</TopLine>
+        <CurrentLine>66</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>

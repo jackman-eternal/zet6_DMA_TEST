@@ -1,4 +1,4 @@
-  #include "bsp_usart1.h"
+#include "bsp_usart1.h"
 //存储在flash的数据
 const uint8_t SendBuff_FLASH[SENDBUFF_SIZE]={0xAB,0XAC,0XAD,0XAE,0XAF,
 	                                         0XA5,0XA2,0XA0,0XAE,0XA3,
@@ -6,58 +6,51 @@ const uint8_t SendBuff_FLASH[SENDBUFF_SIZE]={0xAB,0XAC,0XAD,0XAE,0XAF,
 									         0X78,0X89,0X34,0X56,0X78,
 									         0X45,0XF5,0X3D,0X3A,0X45,
 									         0X34,0X56,0X3D,0X7B,0X89};
-uint8_t SendBuff[SENDBUFF_SIZE];
+uint8_t SendBuff[SENDBUFF_SIZE]; //存在sram中的数据
  
 void USART1_Config(void)
 {
-		GPIO_InitTypeDef GPIO_InitStructure;
-		USART_InitTypeDef USART_InitStructure;
+	GPIO_InitTypeDef GPIO_InitStructure;
+	USART_InitTypeDef USART_InitStructure;
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1 | RCC_APB2Periph_GPIOA, ENABLE);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);    
 		
-		/* config USART1 clock */
-		RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1 | RCC_APB2Periph_GPIOA, ENABLE);
-		
-		/* USART1 GPIO config */
-		/* Configure USART1 Tx (PA.09) as alternate function push-pull */
-		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
-		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-		GPIO_Init(GPIOA, &GPIO_InitStructure);    
-		/* Configure USART1 Rx (PA.10) as input floating */
-		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
-		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-		GPIO_Init(GPIOA, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
 			
-		/* USART1 mode config */
-		USART_InitStructure.USART_BaudRate = 115200;
-		USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-		USART_InitStructure.USART_StopBits = USART_StopBits_1;
-		USART_InitStructure.USART_Parity = USART_Parity_No ;
-		USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-		USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-		USART_Init(USART1, &USART_InitStructure); 
-		USART_Cmd(USART1, ENABLE);
+	USART_InitStructure.USART_BaudRate = 115200;
+	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+	USART_InitStructure.USART_StopBits = USART_StopBits_1;
+	USART_InitStructure.USART_Parity = USART_Parity_No ;
+	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+	USART_Init(USART1, &USART_InitStructure); 
+	USART_Cmd(USART1, ENABLE);
 }
 
 
 int fputc(int ch, FILE *f)
 {
-		/* 发送一个字节数据到USART1 */
-		USART_SendData(USART1, (uint8_t) ch);
-		
-		/* 等待发送完毕 */
-		while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);		
+	/* 发送一个字节数据到USART1 */
+	USART_SendData(USART1, (uint8_t) ch);
 	
-		return (ch);
-}
+	/* 等待发送完毕 */
+	while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);		
 
-///重定向c库函数scanf到USART1
+	return (ch);
+}
 int fgetc(FILE *f)
 {
-		/* 等待串口1输入数据 */
-		while (USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET);
+	/* 等待串口1输入数据 */
+	while (USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET);
 
-		return (int)USART_ReceiveData(USART1);
+	return (int)USART_ReceiveData(USART1);
 }
+
 void LED_Init(void)
 {
   GPIO_InitTypeDef LED_GPIO; 
