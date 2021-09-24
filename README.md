@@ -53,4 +53,8 @@ DMA_Cmd(DMA_CHx, ENABLE);
 在 DMA 传输过程中，我们要查询 DMA 传输通道的状态，使用的函数是：FlagStatus DMA_GetFlagStatus(uint32_t DMAy_FLAG)
 比如我们要查询 DMA 通道 4 传输是否完成，方法是：DMA_GetFlagStatus(DMA2_FLAG_TC4);
 这里还有一个比较重要的函数就是获取当前剩余数据量大小的函数：uint16_t DMA_GetCurrDataCounter(DMA_Channel_TypeDef* DMAy_Channelx)比如我们要获取 DMA 通道 4 还有多少个数据没有传输，方法是：DMA_GetCurrDataCounter(DMA1_Channel4);
+## 测试memory to memory编程
+~1.在flash中定义好要传输的数据，在sram中定义好接收flash数据的变量；
+~2.初始化dma,配置结构体
+~3.编写比较函数和主函数
 # adc采集实验（使用adc采集外部模拟信号并且转化为数字信号，通过DMA方式直接将ADC中的数据存到内存中）
