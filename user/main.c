@@ -27,19 +27,13 @@ int main(void)
 	LED_Init(); 
     USART1_Config();
 	//DMA_Config();
-	MTM_DMA_Config();
 
 //  while(1)
 //	{	
 //      // printf("USART1->DR = %x  \r\n",(uint32_t)&(USART1->DR)); 
 //		delay_ms(1000);
 //	}	
-	status = BufferCom(SendBuff_FLASH,SendBuff, SENDBUFF_SIZE);
-    if(status == 1)
-	{
-		GPIO_ResetBits(GPIOA,GPIO_Pin_2);
-	}
-	
+
 	while(1);
 }
 

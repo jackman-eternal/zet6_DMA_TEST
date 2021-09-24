@@ -57,4 +57,48 @@ DMA_Cmd(DMA_CHx, ENABLE);
 ~1.在flash中定义好要传输的数据，在sram中定义好接收flash数据的变量；
 ~2.初始化dma,配置结构体
 ~3.编写比较函数和主函数
+//存储在flash的数据
+ const uint8_t SendBuff_FLASH[SENDBUFF_SIZE]={0xAB,0XAC,0XAD,0XAE,0XAF, 
+	                                         0XA5,0XA2,0XA0,0XAE,0XA3, 
+	                                         0XBA,0XCB,0XFF,0X45,0X34, 
+									         0X78,0X89,0X34,0X56,0X78, 
+									         0X45,0XF5,0X3D,0X3A,0X45, 
+									         0X34,0X56,0X3D,0X7B,0X89}; 
+uint8_t SendBuff[SENDBUFF_SIZE]; //存在sram中的数据  
+void MTM_DMA_Config(void)  
+{
+	DMA_InitTypeDef MTM_DMA;  
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,ENABLE); //开启DMA时钟  
+	MTM_DMA.DMA_PeripheralBaseAddr=(uint32_t)SendBuff_FLASH;   
+	MTM_DMA.DMA_MemoryBaseAddr=(uint32_t)SendBuff;   
+	MTM_DMA.DMA_DIR = DMA_DIR_PeripheralSRC ;//设置外设-flash为源地址  
+	MTM_DMA.DMA_BufferSize = SENDBUFF_SIZE ;   
+	MTM_DMA.DMA_PeripheralInc =DMA_PeripheralInc_Enable  ;//自增   
+	MTM_DMA.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte ;  
+   	MTM_DMA.DMA_MemoryInc = DMA_MemoryInc_Enable ;//传数组，地址自增   
+	MTM_DMA.DMA_MemoryDataSize =DMA_MemoryDataSize_Byte;    
+	MTM_DMA.DMA_Mode = DMA_Mode_Normal ;//发送一次   
+	MTM_DMA.DMA_Priority = DMA_Priority_High ;   
+	MTM_DMA.DMA_M2M = DMA_M2M_Enable ;//使能内存到内存模式   
+	DMA_Init(DMA1_Channel6 ,&MTM_DMA);  
+    DMA_Cmd(DMA1_Channel6,ENABLE ); 	   
+}     
+//比较函数   
+uint8_t BufferCom(const uint8_t* pBuffer,uint8_t *pBuffer1,uint16_t BufferLength )   
+{   
+	while(BufferLength--)   
+	{    
+		if(*pBuffer != *pBuffer1 )   
+		{  
+			return 0;  
+		}   
+		pBuffer ++;   
+		pBuffer1 ++;   
+	}    
+	return 1;    
+}     
+用比较函数进行测试
+uint8_t status;
+status = BufferCom(SendBuff_FLASH,SendBuff,SENDBUFF_SIZE)
+获取status的值，观察flash中的值是否存储到sram中 
 # adc采集实验（使用adc采集外部模拟信号并且转化为数字信号，通过DMA方式直接将ADC中的数据存到内存中）
