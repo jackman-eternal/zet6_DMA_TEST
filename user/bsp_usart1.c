@@ -1,6 +1,6 @@
 #include "bsp_usart1.h"
 //存储在flash的数据
-const uint8_t SendBuff_FLASH[SENDBUFF_SIZE]={0xAB,0XAC,0XAD,0XAE,0XAF,
+ const uint8_t SendBuff_FLASH[SENDBUFF_SIZE]={0xAB,0XAC,0XAD,0XAE,0XAF,
 	                                         0XA5,0XA2,0XA0,0XAE,0XA3,
 	                                         0XBA,0XCB,0XFF,0X45,0X34,
 									         0X78,0X89,0X34,0X56,0X78,
@@ -17,7 +17,6 @@ void USART1_Config(void)
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);    
-		
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
@@ -64,23 +63,45 @@ void LED_Init(void)
   GPIO_SetBits(GPIOA,GPIO_Pin_2);  	
 }
 
+void MTM_DMA_Config(void)
+{
+	DMA_InitTypeDef MTM_DMA;
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,ENABLE); //开启DMA时钟
+	
+	MTM_DMA.DMA_PeripheralBaseAddr=(uint32_t)SendBuff_FLASH;
+	MTM_DMA.DMA_MemoryBaseAddr=(uint32_t)SendBuff;
+	MTM_DMA.DMA_DIR = DMA_DIR_PeripheralSRC ;//设置外设-flash为源地址
+	
+	MTM_DMA.DMA_BufferSize = SENDBUFF_SIZE ;
+	MTM_DMA.DMA_PeripheralInc =DMA_PeripheralInc_Enable  ;//自增
+	MTM_DMA.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte ;
+	MTM_DMA.DMA_MemoryInc = DMA_MemoryInc_Enable ;//传数组，地址自增
+	MTM_DMA.DMA_MemoryDataSize =DMA_MemoryDataSize_Byte; 
+	MTM_DMA.DMA_Mode = DMA_Mode_Normal ;//发送一次
+	MTM_DMA.DMA_Priority = DMA_Priority_High ;
+	MTM_DMA.DMA_M2M = DMA_M2M_Enable ;//使能内存到内存模式
+	DMA_Init(DMA1_Channel6 ,&MTM_DMA);
+    DMA_Cmd(DMA1_Channel6,ENABLE ); 	
+    	
+}
+
 void DMA_Config(void)
 {
 	DMA_InitTypeDef USART_DMA;
 //	NVIC_InitTypeDef USART_DMA_NVIC;
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,ENABLE); //开启DMA时钟
 	
-	USART_DMA.DMA_PeripheralBaseAddr = (uint32_t)&(USART1->DR) ;//串口数据寄存器地址
-	USART_DMA.DMA_MemoryBaseAddr = (uint32_t )SendBuff ; //传输变量的指针
-    USART_DMA.DMA_DIR = DMA_DIR_PeripheralDST ;  //设定外设为目标地址
-    USART_DMA.DMA_BufferSize = SENDBUFF_SIZE ;  //传输数目
-	USART_DMA.DMA_PeripheralInc = DMA_PeripheralInc_Disable ;//外设地址不增
-	USART_DMA.DMA_MemoryInc = DMA_MemoryInc_Enable ;//内存地址自增
-	USART_DMA.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte ; //外设数据宽度
-	USART_DMA.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte ;  //存储器数据宽度
-	USART_DMA.DMA_Mode = DMA_Mode_Normal ;       //传输一次
-	USART_DMA.DMA_Priority = DMA_Priority_Medium ; //
-	USART_DMA.DMA_M2M = DMA_M2M_Disable ; //
+	USART_DMA.DMA_PeripheralBaseAddr=(uint32_t)&(USART1->DR);//串口数据寄存器地址
+	USART_DMA.DMA_MemoryBaseAddr=(uint32_t )SendBuff;//传输变量的指针
+    USART_DMA.DMA_DIR = DMA_DIR_PeripheralDST; //设定外设为目标地址
+    USART_DMA.DMA_BufferSize = SENDBUFF_SIZE;  //传输数目
+	USART_DMA.DMA_PeripheralInc = DMA_PeripheralInc_Disable;//外设地址不增
+	USART_DMA.DMA_MemoryInc = DMA_MemoryInc_Enable;//内存地址自增
+	USART_DMA.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;//外设数据宽度
+	USART_DMA.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte ; //存储器数据宽度
+	USART_DMA.DMA_Mode = DMA_Mode_Normal ;//传输一次
+	USART_DMA.DMA_Priority = DMA_Priority_Medium ; 
+	USART_DMA.DMA_M2M = DMA_M2M_Disable ; 
 	DMA_Init(DMA1_Channel4 ,&USART_DMA); 
 	DMA_Cmd(DMA1_Channel4,ENABLE);
 	
@@ -91,26 +112,36 @@ void DMA_Config(void)
 //	USART_DMA_NVIC.NVIC_IRQChannelSubPriority =1;
 //	USART_DMA_NVIC.NVIC_IRQChannelCmd =ENABLE ;
 //	NVIC_Init(&USART_DMA_NVIC);
-
 }
 
-//void DMA1_Channel4_IRQHandler(void)
-//{
-//	if( DMA_GetFlagStatus(DMA1_FLAG_TC4 )==SET )
-//	{
-//		GPIO_SetBits(GPIOA,GPIO_Pin_2);
-//        
-//		DMA_ClearFlag(DMA1_FLAG_TC4); 
-//		
-//	}		
-//}
-
 /*
+void DMA1_Channel4_IRQHandler(void)
+{
+	if( DMA_GetFlagStatus(DMA1_FLAG_TC4 )==SET )
+	{
+		GPIO_SetBits(GPIOA,GPIO_Pin_2);
+		DMA_ClearFlag(DMA1_FLAG_TC4); 	
+	}		
+}
 for(i=0;i<SENDBUFF_SIZE;i++ )
 {
 	SendBuff[i]=0xff; 
 }
 USART_DMACmd(USART1,USART_DMAReq_Tx,ENABLE); 
 GPIO_ResetBits(GPIOA,GPIO_Pin_2);
-*/	
+*/
 
+//比较函数
+uint8_t BufferCom(const uint8_t* pBuffer,uint8_t *pBuffer1,uint16_t BufferLength )
+{
+	while(BufferLength--)
+	{
+		if(*pBuffer != *pBuffer1 )
+		{
+			return 0;
+		}
+		pBuffer ++;
+		pBuffer1 ++;
+	}
+	return 1;
+}
