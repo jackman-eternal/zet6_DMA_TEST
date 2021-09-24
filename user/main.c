@@ -17,8 +17,11 @@
 #include "delay.h"
 #include "math.h"
 #include "usart.h"
+#include "adc.h"
 
 
+extern uint16_t ADC_Value;  //转换的电压值通过DMA传到SRAM
+float ADC_Value_Temp;       //用于保存转换后的电压值
 
 int main(void)
 {	

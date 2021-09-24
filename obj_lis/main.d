@@ -11,6 +11,7 @@
 ..\obj_lis\main.o: ..\Fwlib\inc\stm32f10x_gpio.h
 ..\obj_lis\main.o: ..\Fwlib\inc\stm32f10x_i2c.h
 ..\obj_lis\main.o: ..\Fwlib\inc\stm32f10x_rcc.h
+..\obj_lis\main.o: ..\Fwlib\inc\stm32f10x_rtc.h
 ..\obj_lis\main.o: ..\Fwlib\inc\stm32f10x_sdio.h
 ..\obj_lis\main.o: ..\Fwlib\inc\stm32f10x_tim.h
 ..\obj_lis\main.o: ..\Fwlib\inc\stm32f10x_usart.h
@@ -22,3 +23,4 @@
 ..\obj_lis\main.o: ..\user\sys.h
 ..\obj_lis\main.o: D:\software\keil\ARM\ARMCC\Bin\..\include\math.h
 ..\obj_lis\main.o: ..\user\usart.h
+..\obj_lis\main.o: ..\user\adc.h

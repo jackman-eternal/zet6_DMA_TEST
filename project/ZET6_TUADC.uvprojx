@@ -403,6 +403,11 @@
               <FileType>1</FileType>
               <FilePath>..\user\bsp_usart1.c</FilePath>
             </File>
+            <File>
+              <FileName>adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user\adc.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -487,6 +492,11 @@
               <FileName>stm32f10x_dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Fwlib\src\stm32f10x_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Fwlib\src\stm32f10x_rtc.c</FilePath>
             </File>
           </Files>
         </Group>

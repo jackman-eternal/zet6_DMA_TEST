@@ -102,3 +102,4 @@ uint8_t status;
 status = BufferCom(SendBuff_FLASH,SendBuff,SENDBUFF_SIZE)
 获取status的值，观察flash中的值是否存储到sram中 
 # adc采集实验（使用adc采集外部模拟信号并且转化为数字信号，通过DMA方式直接将ADC中的数据存到内存中）
+[https://blog.csdn.net/qq_43743762/article/details/100067558]

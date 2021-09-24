@@ -11,6 +11,7 @@
 ..\obj_lis\system_stm32f10x.o: ..\Fwlib\inc\stm32f10x_gpio.h
 ..\obj_lis\system_stm32f10x.o: ..\Fwlib\inc\stm32f10x_i2c.h
 ..\obj_lis\system_stm32f10x.o: ..\Fwlib\inc\stm32f10x_rcc.h
+..\obj_lis\system_stm32f10x.o: ..\Fwlib\inc\stm32f10x_rtc.h
 ..\obj_lis\system_stm32f10x.o: ..\Fwlib\inc\stm32f10x_sdio.h
 ..\obj_lis\system_stm32f10x.o: ..\Fwlib\inc\stm32f10x_tim.h
 ..\obj_lis\system_stm32f10x.o: ..\Fwlib\inc\stm32f10x_usart.h
