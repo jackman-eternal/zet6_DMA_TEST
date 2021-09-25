@@ -242,6 +242,87 @@ void ADC1_Init(void)
 ## 多通道ADC[https://blog.csdn.net/rannar/article/details/81154765] [https://blog.csdn.net/QDchenxr/article/details/83959733]
 附ADC采样原理：[https://blog.csdn.net/weixin_30436101/article/details/98729119]
 ADC设置为独立模式时，使用到了ADC数据寄存器的低16位，使用双重模式下，转换和采集是同步的（规则同步），adc1采集的数据为低16位，adc2采集的数据为高16位，通过DMA读取（定义一个32位的变量）
+[注]:双重ADC下，dma的数据宽度为32位  
+void ADC12_Reg_Init(void)  //adc1-pa1-channel1  adc2-pa3-channel3   
+{
+	GPIO_InitTypeDef ADC1_GPIO;   
+	DMA_InitTypeDef  ADC1_DMA;   
+	ADC_InitTypeDef  ADC1_Config;    
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC2|RCC_APB2Periph_ADC1,ENABLE);    
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE); 	   
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,ENABLE);   
+	
+	ADC1_GPIO.GPIO_Mode = GPIO_Mode_AIN;   
+    ADC1_GPIO.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_4 ;   
+    GPIO_Init(GPIOA,&ADC1_GPIO);    
+	
+	ADC1_DMA.DMA_BufferSize = 1;               //每个ADC用的是一个通道   
+	ADC1_DMA.DMA_DIR = DMA_DIR_PeripheralSRC ; //外设为数据源   
+	ADC1_DMA.DMA_M2M = DMA_M2M_Disable;     
+    ADC1_DMA.DMA_MemoryBaseAddr = (uint32_t)&ADC_ConValue;    
+	ADC1_DMA.DMA_MemoryDataSize = DMA_MemoryDataSize_Word  ;//32位   
+	ADC1_DMA.DMA_MemoryInc  = DMA_MemoryInc_Disable ;    //内存地址固定（地址只有一个）     
+	ADC1_DMA.DMA_PeripheralBaseAddr = (uint32_t)(&(ADC1->DR));         
+	ADC1_DMA.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word ;    
+    ADC1_DMA.DMA_PeripheralInc = DMA_PeripheralInc_Disable ;  //外设地址固定（地址只有一个）  
+    ADC1_DMA.DMA_Priority = DMA_Priority_High ;   
+    ADC1_DMA.DMA_Mode = DMA_Mode_Circular ;//循环传输  	
+	DMA_Init(DMA1_Channel1 ,&ADC1_DMA);   
+    DMA_Cmd(DMA1_Channel1,ENABLE);  
+	//初始化2个ADC   
+	ADC1_Config.ADC_Mode = ADC_Mode_RegSimult;  
+	ADC1_Config.ADC_ScanConvMode =DISABLE ;//ADC多通道使能  
+	ADC1_Config.ADC_ContinuousConvMode =ENABLE ;   
+	ADC1_Config.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None ;  //不开启外部触发
+	ADC1_Config.ADC_DataAlign = ADC_DataAlign_Right ;  
+	ADC1_Config.ADC_NbrOfChannel =1;   
+	ADC_Init(ADC1,&ADC1_Config);    
+	RCC_ADCCLKConfig(RCC_PCLK2_Div8);    
+	  
+	ADC_RegularChannelConfig(ADC1 ,ADC_Channel_1,1,ADC_SampleTime_55Cycles5);    
+	ADC_DMACmd(ADC1,ENABLE);   
+       
+    //ADC2   
+    ADC1_Config.ADC_Mode = ADC_Mode_RegSimult; //同步规则  
+	ADC1_Config.ADC_ScanConvMode =DISABLE ;//关闭扫描模式   
+	ADC1_Config.ADC_ContinuousConvMode =ENABLE ;//连续转换模式   
+	ADC1_Config.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None ;   
+	ADC1_Config.ADC_DataAlign = ADC_DataAlign_Right ;   
+	ADC1_Config.ADC_NbrOfChannel =1;  
+	ADC_Init(ADC2,&ADC1_Config);   
+    RCC_ADCCLKConfig(RCC_PCLK2_Div8);  	
+    
+    ADC_RegularChannelConfig(ADC2,ADC_Channel_4,1,ADC_SampleTime_55Cycles5) ;   
+       
+    //adc_calibration  
+    ADC_Cmd(ADC1,ENABLE);   
+	  
+	ADC_ResetCalibration(ADC1);   
+    while(ADC_GetResetCalibrationStatus(ADC1));    	
+    ADC_StartCalibration(ADC1);   
+    while(ADC_GetCalibrationStatus(ADC1));   
+    ADC_Cmd(ADC2,ENABLE);  
+	ADC_ResetCalibration(ADC2);   
+    while(ADC_GetResetCalibrationStatus(ADC2));	  
+    ADC_StartCalibration(ADC2);   
+    while(ADC_GetCalibrationStatus(ADC2)) ;   
+       
+ 	ADC_SoftwareStartConvCmd(ADC1,ENABLE); //ADC1是主(由软件触发)，ADC2是从（adc的多路复用触发器来）       	
+	ADC_ExternalTrigConvCmd(ADC2,ENABLE );     
+}   
+注：adc的双重规则通道，开启adc1和adc2,adc1的数据通过dma传输到adc数据寄存器的低16位，而adc2的数据存储在高16位，所以内存和外设的数据宽度为32位；adc初始化的时候，要对两个adc同时初始化，不用独立模式，分别配置采样通道和复位以及校准
+获取adc的数据
+float ADC_Value_Temp1;       //用于保存转换后的电压值  
+float ADC_Value_Temp2;       //用于保存转换后的电压值  
+
+ Value1 = (ADC_ConValue&0xffff0000)>>16;//取出高16位
+ Value2 = (ADC_ConValue&0x0000ffff);	  //取出低16位
+ ADC_Value_Temp1 = (float)Value1*3.3/4096;
+ ADC_Value_Temp2 = (float)Value2*3.3/4096;
+ 
+
+
+
 
 
 
