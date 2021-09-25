@@ -10,7 +10,6 @@
 #include "math.h"
 #include "usart.h"
 #include "adc.h"
-#include "OLED_I2C.h"
 
 
 float ADC_PH_Temp1,PH;       //用于保存转换后的电压值
@@ -61,19 +60,4 @@ void conver(void)
 	  }
 	  
 }
-/*	
-	while(1)
-	{
-		OLED_Fill(0xFF);//全屏点亮
-        delay_ms(2000); 
-		for(i=0;i<5;i++)
-		{
-			OLED_ShowCN(22+i*16,0,i);//测试显示中文
-		}
-        delay_ms(2000); 
-		OLED_ShowStr(0,3,"HelTec Automation",1);//测试6*8字符
-		OLED_ShowStr(0,4,"Hello Tech",2);				//测试8*16字符
-		delay_ms(2000); 
-		OLED_CLS();//清屏
-	}
-*/
+
