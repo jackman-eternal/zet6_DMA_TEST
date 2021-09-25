@@ -1,5 +1,6 @@
 /*
- 浊度传感器模块: VCC -> 5V; GND -> GND; AO -> PA2;
+ 浊度传感器模块: pa1
+ ph传感器：pa3
  */
  
 #include "stm32f10x.h"
@@ -12,35 +13,28 @@
 #include "OLED_I2C.h"
 
 
-float ADC_Value_Temp1;       //用于保存转换后的电压值
-float ADC_Value_Temp2;       //用于保存转换后的电压值
+float ADC_PH_Temp1;       //用于保存转换后的电压值
+float ADC_TU_Temp2;       //用于保存转换后的电压值
 
 int main(void)
 {	
-	uint16_t Value1,Value2;
+	
 	delay_init(); 
 	LED_Init(); 
     USART1_Config();
-    ADC12_Reg_Init();
-	
-//  ADC1_Init();
-//	ADC1_Multi_Init(); 
+	ADC1_Multi_Init(); 
+
 //  I2C_Configuration();
 //	OLED_Init();
 
 	while(1)
 	{
-//	   ADC_Value_Temp1 = (float)ADC_Value[0]*3.3/4096;
-//	   ADC_Value_Temp2 = (float)ADC_Value[1]*3.3/4096;
-	   Value1 = (ADC_ConValue&0xffff0000)>>16;//取出高16位
-       Value2 = (ADC_ConValue&0x0000ffff);	  //取出低16位
-	   ADC_Value_Temp1 = (float)Value1*3.3/4096;
-	   ADC_Value_Temp2 = (float)Value2*3.3/4096;
+	   ADC_PH_Temp1 = (float)ADC_Value[0]*3.3/4096;
+	   ADC_TU_Temp2 = (float)ADC_Value[1]*3.3/4096;
 		
-       delay_ms(2000);
-       		
-     printf("Value1= %f,Value2= %f\r\n",ADC_Value_Temp1,ADC_Value_Temp2)  ;
-  //   printf("{\"zhuo\":2.0, \"temperature\":3,\"NH3\":4,\"O2\":4,\"pH\":1.0}");		//ADC_Value_Temp1
+       delay_ms(2000);  		
+  // printf("Value1= %f,Value2= %f\r\n",ADC_Value_Temp1,ADC_Value_Temp2)  ;
+  // printf("{\"zhuo\":2.0, \"temperature\":3,\"NH3\":4,\"O2\":4,\"pH\":1.0}");		//ADC_Value_Temp1
 	}
 }
 

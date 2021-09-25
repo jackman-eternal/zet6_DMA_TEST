@@ -1,8 +1,8 @@
 #include "adc.h"
 
 // __IO uint16_t ADC_Value;  //单通道模式，ADC数据寄存器使用低16位
-// __IO uint16_t ADC_Value[2]; //多通道模式，在sram中定义两个变量
-__IO uint32_t ADC_ConValue;
+  __IO uint16_t ADC_Value[2]; //多通道模式，在sram中定义两个变量
+//__IO uint32_t ADC_ConValue;
 /*  //单通道规则读取
 void ADC1_Init(void)
 {
@@ -49,7 +49,7 @@ void ADC1_Init(void)
 	ADC_SoftwareStartConvCmd(ADC1,ENABLE); 	
 }*/
 
-/*  //多通道规则读取
+  //多通道规则读取
 void ADC1_Multi_Init(void)  //开启PA0和PA3   
 { 
 	GPIO_InitTypeDef ADC1_GPIO;
@@ -92,12 +92,16 @@ void ADC1_Multi_Init(void)  //开启PA0和PA3
 	ADC_RegularChannelConfig(ADC1,ADC_Channel_3 ,2,ADC_SampleTime_55Cycles5);
     ADC_DMACmd(ADC1 ,ENABLE );    //ADC提交DMA请求
     ADC_Cmd(ADC1 ,ENABLE );  
-       	 
+     
+  	ADC_ResetCalibration(ADC1);
+    while(ADC_GetResetCalibrationStatus(ADC1));	 
     ADC_StartCalibration(ADC1);
     while(ADC_GetCalibrationStatus(ADC1));
 	ADC_SoftwareStartConvCmd(ADC1,ENABLE);
 }
-*/
+
+
+/*
 void ADC12_Reg_Init(void)  //adc1-pa1-channel1  adc2-pa3-channel3
 {
 	GPIO_InitTypeDef ADC1_GPIO;
@@ -165,4 +169,8 @@ void ADC12_Reg_Init(void)  //adc1-pa1-channel1  adc2-pa3-channel3
  	ADC_SoftwareStartConvCmd(ADC1,ENABLE); //ADC1是主(由软件触发)，ADC2是从（adc的多路复用触发器来）     	
 	ADC_ExternalTrigConvCmd(ADC2,ENABLE ); 
 }
-
+//	   Value1 = (ADC_ConValue&0xffff0000)>>16;//取出高16位
+//     Value2 = (ADC_ConValue&0x0000ffff);	  //取出低16位
+//	   ADC_Value_Temp1 = (float)Value1*3.3/4096;
+//	   ADC_Value_Temp2 = (float)Value2*3.3/4096;
+*/
