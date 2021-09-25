@@ -25,19 +25,33 @@ float ADC_Value_Temp;       //用于保存转换后的电压值
 
 int main(void)
 {	
-   
+    int i=0;
 	delay_init(); 
 	LED_Init(); 
     USART1_Config();
     ADC1_Init(); 
-    I2C_Configuration();
-	OLED_Init();
-	
+//    I2C_Configuration();
+//	OLED_Init();
+
 	while(1)
 	{
 		ADC_Value_Temp = (float)ADC_Value/4096*3.3;
         delay_ms(10);
         printf("ADC_Value_Temp = %f \r\n",ADC_Value_Temp)  ;		
 	}
+//	while(1)
+//	{
+//		OLED_Fill(0xFF);//全屏点亮
+//        delay_ms(2000); 
+////		for(i=0;i<5;i++)
+////		{
+////			OLED_ShowCN(22+i*16,0,i);//测试显示中文
+////		}
+////        delay_ms(2000); 
+////		OLED_ShowStr(0,3,"HelTec Automation",1);//测试6*8字符
+////		OLED_ShowStr(0,4,"Hello Tech",2);				//测试8*16字符
+////		delay_ms(2000); 
+////		OLED_CLS();//清屏
+//	}
 }
 

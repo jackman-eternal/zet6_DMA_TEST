@@ -1,6 +1,6 @@
 #include "adc.h"
 
-__IO uint16_t ADC_Value;
+__IO uint16_t ADC_Value;  //单通道模式，ADC数据寄存器使用低16位
 
 void ADC1_Init(void)
 {
@@ -19,10 +19,10 @@ void ADC1_Init(void)
 	ADC1_DMA.DMA_M2M = DMA_M2M_Disable;  
     ADC1_DMA.DMA_MemoryBaseAddr = (uint32_t)&ADC_Value;
 	ADC1_DMA.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord ;//16位
-	ADC1_DMA.DMA_MemoryInc  = DMA_MemoryInc_Disable ;   //内存地址固定
+	ADC1_DMA.DMA_MemoryInc  = DMA_MemoryInc_Disable ;    //内存地址固定（地址只有一个）
 	ADC1_DMA.DMA_PeripheralBaseAddr = (uint32_t)(&(ADC1->DR)); 
 	ADC1_DMA.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
-    ADC1_DMA.DMA_PeripheralInc = DMA_PeripheralInc_Disable ;  //外设地址固定
+    ADC1_DMA.DMA_PeripheralInc = DMA_PeripheralInc_Disable ;  //外设地址固定（地址只有一个）
     ADC1_DMA.DMA_Priority = DMA_Priority_High ; 
     ADC1_DMA.DMA_Mode = DMA_Mode_Circular ;//循环传输	
 	DMA_Init(DMA1_Channel1 ,&ADC1_DMA);
@@ -38,7 +38,7 @@ void ADC1_Init(void)
     
     RCC_ADCCLKConfig(RCC_PCLK2_Div8);
     ADC_RegularChannelConfig(ADC1,ADC_Channel_1 ,1,ADC_SampleTime_55Cycles5  );//55.5个采样周期
-    ADC_DMACmd(ADC1 ,ENABLE );
+    ADC_DMACmd(ADC1 ,ENABLE );    //ADC提交DMA请求
     ADC_Cmd(ADC1 ,ENABLE );    	
      	
 	ADC_ResetCalibration(ADC1);
