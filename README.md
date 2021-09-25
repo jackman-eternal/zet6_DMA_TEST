@@ -119,8 +119,18 @@ ADC1_DMA.DMA_PeripheralInc = DMA_PeripheralInc_Disable ;  //外设地址固定�
 ADC1_DMA.DMA_Priority = DMA_Priority_High ;              //一个通道，优先级为高   
 ADC1_DMA.DMA_Mode = DMA_Mode_Circular ;                  //循环传输，反复传入数据	  
 DMA_Init(DMA1_Channel1 ,&ADC1_DMA);                      //寄存器写入值   
-DMA_Cmd(DMA1_Channel1,ENABLE);                          //使能dma的通道     
+DMA_Cmd(DMA1_Channel1,ENABLE);                          //使能dma的通道       
 
- ADC_DMACmd(ADC1 ,ENABLE );    //ADC提交DMA请求    向cpu提交dma请求后，开始将外设数据寄存器中的数据存储到SRAM中的变量中
- ## ADC单通道规则转换配置
- 
+ ADC_DMACmd(ADC1 ,ENABLE );    //ADC提交DMA请求    向cpu提交dma请求后，开始将外设数据寄存器中的数据存储到SRAM中的变量中    
+ ## ADC单通道规则转换配置 
+ADC1_Config.ADC_Mode = ADC_Mode_Independent ;  //独立模式，用单个ADC转换器 
+ADC1_Config.ADC_ScanConvMode =DISABLE ;        //不开启轮流扫描模式  
+ADC1_Config.ADC_ContinuousConvMode  =ENABLE ;  //循环采集模式  
+ADC1_Config.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None ;  //不需要外部触发信号  
+ADC1_Config.ADC_DataAlign = ADC_DataAlign_Right ;               //数据右对齐  
+ADC1_Config.ADC_NbrOfChannel =1;                                //转换通道数只有一个  
+ADC_Init(ADC1 ,&ADC1_Config);                          
+
+RCC_ADCCLKConfig(RCC_PCLK2_Div8);//配置采样频率 9MHZ
+ADC_RegularChannelConfig(ADC1,ADC_Channel_1 ,1,ADC_SampleTime_55Cycles5  );//55.5个采样周期，规则转换通道配置
+ADC_Cmd(ADC1 ,ENABLE ); //使能ADC1  
