@@ -240,5 +240,7 @@ void ADC1_Init(void)
 	ADC_SoftwareStartConvCmd(ADC1,ENABLE);    
 }
 ## 多通道ADC[https://blog.csdn.net/rannar/article/details/81154765] [https://blog.csdn.net/QDchenxr/article/details/83959733]
+附ADC采样原理：[https://blog.csdn.net/weixin_30436101/article/details/98729119]
+
 
 
