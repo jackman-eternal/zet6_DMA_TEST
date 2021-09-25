@@ -133,4 +133,8 @@ ADC_Init(ADC1 ,&ADC1_Config);
 
 RCC_ADCCLKConfig(RCC_PCLK2_Div8);//配置采样频率 9MHZ
 ADC_RegularChannelConfig(ADC1,ADC_Channel_1 ,1,ADC_SampleTime_55Cycles5  );//55.5个采样周期，规则转换通道配置
-ADC_Cmd(ADC1 ,ENABLE ); //使能ADC1  
+ADC_Cmd(ADC1 ,ENABLE ); //使能ADC1
+
+ADC_StartCalibration(ADC1);  
+while(ADC_GetCalibrationStatus(ADC1));  //等待校准完成  
+ADC_SoftwareStartConvCmd(ADC1,ENABLE);  //软件触发   
