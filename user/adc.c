@@ -42,7 +42,7 @@ void ADC1_Init(void)
     ADC_Cmd(ADC1 ,ENABLE );    	
      	
 //	ADC_ResetCalibration(ADC1);
-//    while(ADC_GetResetCalibrationStatus(ADC1) )   影响数据准确度
+//  while(ADC_GetResetCalibrationStatus(ADC1) )   影响数据准确度
     ADC_StartCalibration(ADC1);
     while(ADC_GetCalibrationStatus(ADC1));
 	ADC_SoftwareStartConvCmd(ADC1,ENABLE); 
