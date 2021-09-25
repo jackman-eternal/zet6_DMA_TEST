@@ -187,7 +187,7 @@ void ADC1_Multi_Init(void)  //开启PA0和PA3
     while(ADC_GetCalibrationStatus(ADC1));    
 	ADC_SoftwareStartConvCmd(ADC1,ENABLE) ;                  //软件触发    
 }
-## 单通道ADC,用中断的方式获取adc的值 ，配置代码不变，禁用DMA，添加中断配置，写中断函数
+## 单通道ADC,用中断的方式获取adc的值 ，配置代码不变，禁用DMA，添加中断配置，写中断函数[https://www.cnblogs.com/josephcnblog/articles/9631775.html]
 void ADC1_Init(void)
 {
 	GPIO_InitTypeDef ADC1_GPIO; 
