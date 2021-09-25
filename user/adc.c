@@ -79,7 +79,8 @@ void ADC1_Multi_Init(void)  //开启PA0和PA3
     ADC1_DMA.DMA_Priority = DMA_Priority_High ; 
     ADC1_DMA.DMA_Mode = DMA_Mode_Circular ;//循环传输	
 	DMA_Init(DMA1_Channel1 ,&ADC1_DMA);
-    DMA_Cmd(DMA1_Channel1,ENABLE);
+   // DMA_Cmd(DMA1_Channel1,ENABLE);
+	DMA_Cmd(DMA1_Channel1,DISABLE);
 	
 	ADC1_Config.ADC_Mode = ADC_Mode_Independent ;
 	ADC1_Config.ADC_ScanConvMode =ENABLE ;//DISABLE ;多通道使能
@@ -93,7 +94,7 @@ void ADC1_Multi_Init(void)  //开启PA0和PA3
 	//每一个通道都要设置采样顺序和时间
     ADC_RegularChannelConfig(ADC1,ADC_Channel_1 ,1,ADC_SampleTime_55Cycles5);
 	ADC_RegularChannelConfig(ADC1,ADC_Channel_3 ,2,ADC_SampleTime_55Cycles5);
-    ADC_DMACmd(ADC1 ,ENABLE );    //ADC提交DMA请求
+  //  ADC_DMACmd(ADC1 ,ENABLE );    //ADC提交DMA请求
     ADC_Cmd(ADC1 ,ENABLE );  
        	 
     ADC_StartCalibration(ADC1);

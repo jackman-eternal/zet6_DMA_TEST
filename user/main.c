@@ -30,8 +30,8 @@ int main(void)
 	delay_init(); 
 	LED_Init(); 
     USART1_Config();
-    ADC1_Init();
-//	ADC1_Multi_Init(); 
+//  ADC1_Init();
+	ADC1_Multi_Init(); 
 //  I2C_Configuration();
 //	OLED_Init();
 
