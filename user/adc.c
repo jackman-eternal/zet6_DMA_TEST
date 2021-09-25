@@ -151,9 +151,14 @@ void ADC12_Reg_Init(void)  //adc1-pa1-channel1  adc2-pa3-channel3
     
     //adc_calibration
     ADC_Cmd(ADC1,ENABLE);
+	
+	ADC_ResetCalibration(ADC1);
+    while(ADC_GetResetCalibrationStatus(ADC1));	
     ADC_StartCalibration(ADC1);
     while(ADC_GetCalibrationStatus(ADC1));
     ADC_Cmd(ADC2,ENABLE);
+	ADC_ResetCalibration(ADC2);
+    while(ADC_GetResetCalibrationStatus(ADC2));	
     ADC_StartCalibration(ADC2);
     while(ADC_GetCalibrationStatus(ADC2));
     
