@@ -122,7 +122,7 @@ DMA_Init(DMA1_Channel1 ,&ADC1_DMA);                      //寄存器写入值
 DMA_Cmd(DMA1_Channel1,ENABLE);                          //使能dma的通道       
 
  ADC_DMACmd(ADC1 ,ENABLE );    //ADC提交DMA请求    向cpu提交dma请求后，开始将外设数据寄存器中的数据存储到SRAM中的变量中    
- ## ADC单通道规则转换配置 
+ ## ADC单通道规则转换配置(独立模式，ADC数据寄存器用低16位，) 
 ADC1_Config.ADC_Mode = ADC_Mode_Independent ;  //独立模式，用单个ADC转换器 
 ADC1_Config.ADC_ScanConvMode =DISABLE ;        //不开启轮流扫描模式  
 ADC1_Config.ADC_ContinuousConvMode  =ENABLE ;  //循环采集模式  
@@ -137,4 +137,5 @@ ADC_Cmd(ADC1 ,ENABLE ); //使能ADC1
 
 ADC_StartCalibration(ADC1);  
 while(ADC_GetCalibrationStatus(ADC1));  //等待校准完成  
-ADC_SoftwareStartConvCmd(ADC1,ENABLE);  //软件触发   
+ADC_SoftwareStartConvCmd(ADC1,ENABLE);  //软件触发  
+## ADC采集，多通道的，在SRAM里面设置一个数组，（channel_0 DR低（16）-> Value[0];之后地址自增,channel_1 DR(低16位) -> Value[1] 地址自增;）多个通道时，需要开启扫描模式 ，有多个通道，内存地址应该自增（ENABLE）
