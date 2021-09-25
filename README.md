@@ -239,6 +239,6 @@ void ADC1_Init(void)
     while(ADC_GetCalibrationStatus(ADC1));  
 	ADC_SoftwareStartConvCmd(ADC1,ENABLE);    
 }
-
+## 多通道ADC[https://blog.csdn.net/rannar/article/details/81154765] [https://blog.csdn.net/QDchenxr/article/details/83959733]
 
 
