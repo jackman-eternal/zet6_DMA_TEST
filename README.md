@@ -103,3 +103,24 @@ status = BufferCom(SendBuff_FLASH,SendBuff,SENDBUFF_SIZE)
 获取status的值，观察flash中的值是否存储到sram中 
 # adc采集实验（使用adc采集外部模拟信号并且转化为数字信号，通过DMA方式直接将ADC中的数据存到内存中）
 [https://blog.csdn.net/qq_43743762/article/details/100067558]
+## DMA的配置 外设ADC（adc1的外设在dma通道1）为源地址，adc数据寄存器用到低16位，故从外设到内存的变量也是16位                   __IO uint16_t ADC_Value;  //单通道模式，ADC数据寄存器使用低16位 
+DMA_InitTypeDef  ADC1_DMA;    
+RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,ENABLE);     
+
+ADC1_DMA.DMA_BufferSize = 1;    //传输一个数据      
+ADC1_DMA.DMA_DIR = DMA_DIR_PeripheralSRC ; //外设为数据源     
+ADC1_DMA.DMA_M2M = DMA_M2M_Disable;        //禁用内存到内存模式   
+ADC1_DMA.DMA_MemoryBaseAddr = (uint32_t)&ADC_Value;      //传入内存变量的地址   
+ADC1_DMA.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord ;//16位    
+ADC1_DMA.DMA_MemoryInc  = DMA_MemoryInc_Disable ;    //内存地址固定（地址只有一个）   
+ADC1_DMA.DMA_PeripheralBaseAddr = (uint32_t)(&(ADC1->DR));  传入外设数据寄存器的地址   
+ADC1_DMA.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord; //传输数据宽度位16位（半字）   
+ADC1_DMA.DMA_PeripheralInc = DMA_PeripheralInc_Disable ;  //外设地址固定（地址只有一个）  
+ADC1_DMA.DMA_Priority = DMA_Priority_High ;              //一个通道，优先级为高   
+ADC1_DMA.DMA_Mode = DMA_Mode_Circular ;                  //循环传输，反复传入数据	  
+DMA_Init(DMA1_Channel1 ,&ADC1_DMA);                      //寄存器写入值   
+DMA_Cmd(DMA1_Channel1,ENABLE);                          //使能dma的通道     
+
+ ADC_DMACmd(ADC1 ,ENABLE );    //ADC提交DMA请求    向cpu提交dma请求后，开始将外设数据寄存器中的数据存储到SRAM中的变量中
+ ## ADC单通道规则转换配置
+ 
