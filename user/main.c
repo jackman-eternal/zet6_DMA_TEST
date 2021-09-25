@@ -26,21 +26,22 @@ float ADC_Value_Temp2;       //用于保存转换后的电压值
 
 int main(void)
 {	
-  
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1); 
 	delay_init(); 
 	LED_Init(); 
     USART1_Config();
-//  ADC1_Init();
-	ADC1_Multi_Init(); 
+    ADC1_Init();
+//	ADC1_Multi_Init(); 
 //  I2C_Configuration();
 //	OLED_Init();
 
 	while(1)
 	{
-		ADC_Value_Temp1 = (float)ADC_Value[0]*3.3/4096;
-		ADC_Value_Temp2 = (float)ADC_Value[1]*3.3/4096;
-        delay_ms(2000);
-        printf("Value1= %f,Value2= %f\r\n",ADC_Value_Temp1,ADC_Value_Temp2)  ;
+//		ADC_Value_Temp1 = (float)ADC_Value[0]*3.3/4096;
+//		ADC_Value_Temp2 = (float)ADC_Value[1]*3.3/4096;
+       delay_ms(2000);
+	   
+  //   printf("Value1= %f,Value2= %f\r\n",ADC_Value_Temp1,ADC_Value_Temp2)  ;
   //   printf("{\"zhuo\":%f, \"temperature\":3,\"NH3\":4,\"O2\":4,\"pH\":1.0}",ADC_Value_Temp);		
 	}
 	
