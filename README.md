@@ -319,7 +319,35 @@ float ADC_Value_Temp2;       //用于保存转换后的电压值
  Value2 = (ADC_ConValue&0x0000ffff);	  //取出低16位
  ADC_Value_Temp1 = (float)Value1*3.3/4096;
  ADC_Value_Temp2 = (float)Value2*3.3/4096;
- 
+ ## 连接PH和浊度传感器测试
+float ADC_PH_Temp1,PH;       //用于保存转换后的电压值   
+float ADC_TU_Temp2,TU;       //用于保存转换后的电压值   
+void conver(void);    
+
+void conver(void)   
+{
+	 ADC_PH_Temp1 = (float)ADC_Value[0]*3.3/4096;      
+	 ADC_TU_Temp2 = (float)ADC_Value[1]*3.3/4096;  
+	 PH = -5.7541*ADC_PH_Temp1+16.654;    
+	if(PH<=0.0)    
+      {   
+		  PH=0.0;   
+	  }    
+	if(PH>=14.0)    
+      {   
+	      PH=14.0;   
+	  }    
+	   TU=-865.68*ADC_TU_Temp2+3291.3;    
+	  if(TU<=0)   
+      {  
+	      TU=0;   
+	  }   
+	  if(TU>=3000)  
+      {   
+		  TU=3000;   
+	  }       
+}     
+
 
 
 
