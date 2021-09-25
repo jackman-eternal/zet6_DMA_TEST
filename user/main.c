@@ -35,9 +35,10 @@ int main(void)
 
 	while(1)
 	{
-		ADC_Value_Temp = (float)ADC_Value/4096*3.3;
-        delay_ms(10);
-        printf("ADC_Value_Temp = %f \r\n",ADC_Value_Temp)  ;		
+		ADC_Value_Temp = (float)ADC_Value*3.3/4096;
+        delay_ms(1000);
+        printf("ADC_Value_Temp = %f \r\n",ADC_Value_Temp)  ;
+       //printf("{\"zhuo\":%f, \"temperature\":3,\"NH3\":4,\"O2\":4,\"pH\":1.0}",ADC_Value_Temp);		
 	}
 //	while(1)
 //	{
