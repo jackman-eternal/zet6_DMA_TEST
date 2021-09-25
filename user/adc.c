@@ -55,7 +55,6 @@ void ADC1_Multi_Init(void)  //开启PA0和PA3
 	GPIO_InitTypeDef ADC1_GPIO;
 	ADC_InitTypeDef  ADC1_Config;
 	DMA_InitTypeDef  ADC1_DMA;
-	
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1 |RCC_APB2Periph_GPIOA ,ENABLE );
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,ENABLE);
 	
@@ -76,7 +75,6 @@ void ADC1_Multi_Init(void)  //开启PA0和PA3
     ADC1_DMA.DMA_Mode = DMA_Mode_Circular ;//循环传输	
 	DMA_Init(DMA1_Channel1 ,&ADC1_DMA);
     DMA_Cmd(DMA1_Channel1,ENABLE);
-	
 	
 	ADC1_Config.ADC_Mode = ADC_Mode_Independent ;
 	ADC1_Config.ADC_ScanConvMode =ENABLE ;//DISABLE ;多通道使能
