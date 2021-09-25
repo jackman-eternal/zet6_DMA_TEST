@@ -24,3 +24,4 @@
 ..\obj_lis\main.o: D:\software\keil\ARM\ARMCC\Bin\..\include\math.h
 ..\obj_lis\main.o: ..\user\usart.h
 ..\obj_lis\main.o: ..\user\adc.h
+..\obj_lis\main.o: ..\user\OLED_I2C.h

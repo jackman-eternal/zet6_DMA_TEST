@@ -18,7 +18,7 @@
 #include "math.h"
 #include "usart.h"
 #include "adc.h"
-
+#include "OLED_I2C.h"
 
 
 float ADC_Value_Temp;       //用于保存转换后的电压值
@@ -30,7 +30,9 @@ int main(void)
 	LED_Init(); 
     USART1_Config();
     ADC1_Init(); 
-
+    I2C_Configuration();
+	OLED_Init();
+	
 	while(1)
 	{
 		ADC_Value_Temp = (float)ADC_Value/4096*3.3;
