@@ -241,6 +241,8 @@ void ADC1_Init(void)
 }
 ## 多通道ADC[https://blog.csdn.net/rannar/article/details/81154765] [https://blog.csdn.net/QDchenxr/article/details/83959733]
 附ADC采样原理：[https://blog.csdn.net/weixin_30436101/article/details/98729119]
+ADC设置为独立模式时，使用到了ADC数据寄存器的低16位，使用双重模式下，转换和采集是同步的（规则同步），adc1采集的数据为低16位，adc2采集的数据为高16位，通过DMA读取（定义一个32位的变量）
+
 
 
 
