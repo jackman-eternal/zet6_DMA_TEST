@@ -6,11 +6,13 @@
 #include "delay.h"
 
 
-//extern __IO uint16_t ADC_Value;  //转换的电压值通过DMA传到SRAM
-extern   __IO uint16_t ADC_Value[2]; //多通道模式，在sram中定义两个变量
+//extern   __IO uint16_t ADC_Value;  //转换的电压值通过DMA传到SRAM
+//extern   __IO uint16_t ADC_Value[2]; //多通道模式，在sram中定义两个变量
+extern   __IO uint32_t ADC_ConValue;
 void ADC1_Init(void);
 
 void ADC1_Multi_Init(void); 
 
+void ADC12_Reg_Init(void);
 #endif
 
