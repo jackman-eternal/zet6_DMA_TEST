@@ -23,14 +23,12 @@ int main(void)
     USART1_Config();
 	ADC1_Multi_Init(); 
 
-//  I2C_Configuration();
-//	OLED_Init();
 	while(1)
 	{
      conver();		
      delay_ms(1000);
-     printf("ADC_PH_Temp1 = %f , PH = %f \r\n",ADC_PH_Temp1,PH);  
-     printf("ADC_TU_Temp2 = %f , TU = %f \r\n",ADC_TU_Temp2,TU); 		
+     printf("ADC_PH_Temp1 = %f \r\n",ADC_PH_Temp1);  
+     printf("ADC_TU_Temp2 = %f  \r\n",ADC_TU_Temp2); 		
   // printf("Value1= %f,Value2= %f\r\n",ADC_Value_Temp1,ADC_Value_Temp2)  ;
   // printf("{\"zhuo\":2.0, \"temperature\":3,\"NH3\":4,\"O2\":4,\"pH\":1.0}");		//ADC_Value_Temp1
 	}
