@@ -1,6 +1,6 @@
 Dependencies for Project 'ZET6_TUADC', Target 'ZET6_TUADC': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
-F (..\user\main.c)(0x614FB93B)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\user -I ..\cmsis -I ..\Fwlib\inc-ID:\software\keil\Keil\STM32F1xx_DFP\2.1.0\Device\Include-ID:\software\keil\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD-o ..\obj_lis\main.o --omf_browse ..\obj_lis\main.crf --depend ..\obj_lis\main.d)
+F (..\user\main.c)(0x614FB9CD)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\user -I ..\cmsis -I ..\Fwlib\inc-ID:\software\keil\Keil\STM32F1xx_DFP\2.1.0\Device\Include-ID:\software\keil\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD-o ..\obj_lis\main.o --omf_browse ..\obj_lis\main.crf --depend ..\obj_lis\main.d)
 I (..\cmsis\stm32f10x.h)(0x61408C9B)
 I (..\cmsis\core_cm3.h)(0x61408C9B)
 I (D:\software\keil\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
@@ -19,12 +19,10 @@ I (..\Fwlib\inc\stm32f10x_usart.h)(0x61408C9B)
 I (..\Fwlib\inc\misc.h)(0x61408C9B)
 I (..\user\bsp_usart1.h)(0x614DB677)
 I (D:\software\keil\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
-I (D:\software\keil\ARM\ARMCC\include\string.h)(0x5E8E2EB2)
 I (..\user\delay.h)(0x61408C9B)
 I (..\user\sys.h)(0x61408C9B)
 I (D:\software\keil\ARM\ARMCC\include\math.h)(0x5E8E2EB2)
-I (..\user\usart.h)(0x50517A83)
-I (..\user\adc.h)(0x614F3AEB)
+I (..\user\adc.h)(0x614FB9C2)
 F (..\user\sys.c)(0x61408C9B)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\user -I ..\cmsis -I ..\Fwlib\inc-ID:\software\keil\Keil\STM32F1xx_DFP\2.1.0\Device\Include-ID:\software\keil\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD-o ..\obj_lis\sys.o --omf_browse ..\obj_lis\sys.crf --depend ..\obj_lis\sys.d)
 I (..\user\sys.h)(0x61408C9B)
 I (..\cmsis\stm32f10x.h)(0x61408C9B)
@@ -82,7 +80,7 @@ I (..\Fwlib\inc\stm32f10x_usart.h)(0x61408C9B)
 I (..\Fwlib\inc\misc.h)(0x61408C9B)
 I (D:\software\keil\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
 F (..\user\adc.c)(0x614F3ADE)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\user -I ..\cmsis -I ..\Fwlib\inc-ID:\software\keil\Keil\STM32F1xx_DFP\2.1.0\Device\Include-ID:\software\keil\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD-o ..\obj_lis\adc.o --omf_browse ..\obj_lis\adc.crf --depend ..\obj_lis\adc.d)
-I (..\user\adc.h)(0x614F3AEB)
+I (..\user\adc.h)(0x614FB9C2)
 I (..\cmsis\stm32f10x.h)(0x61408C9B)
 I (..\cmsis\core_cm3.h)(0x61408C9B)
 I (D:\software\keil\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)

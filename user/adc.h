@@ -14,3 +14,31 @@ void ADC1_Multi_Init(void);  //多通道
 void ADC12_Reg_Init(void);   //双重ADC
 #endif
 
+//void conver(void);
+/*
+void conver(void)
+{
+	 ADC_PH_Temp1 = (float)ADC_Value[0]*3.3/4096;
+	 ADC_TU_Temp2 = (float)ADC_Value[1]*3.3/4096;
+	 PH = -5.7541*ADC_PH_Temp1+16.654;
+	if(PH<=0.0)
+      {
+		  PH=0.0;
+	  }
+	if(PH>=14.0)
+      {
+	      PH=14.0;
+	  }
+	   TU=-865.68*ADC_TU_Temp2+3291.3;
+	  if(TU<=0)
+      {
+	      TU=0;
+	  }
+	  if(TU>=3000)
+      {
+		  TU=3000;
+	  }
+	  
+}
+*/
+

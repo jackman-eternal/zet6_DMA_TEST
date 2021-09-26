@@ -18,9 +18,7 @@
 ..\obj_lis\main.o: ..\Fwlib\inc\misc.h
 ..\obj_lis\main.o: ..\user\bsp_usart1.h
 ..\obj_lis\main.o: D:\software\keil\ARM\ARMCC\Bin\..\include\stdio.h
-..\obj_lis\main.o: D:\software\keil\ARM\ARMCC\Bin\..\include\string.h
 ..\obj_lis\main.o: ..\user\delay.h
 ..\obj_lis\main.o: ..\user\sys.h
 ..\obj_lis\main.o: D:\software\keil\ARM\ARMCC\Bin\..\include\math.h
-..\obj_lis\main.o: ..\user\usart.h
 ..\obj_lis\main.o: ..\user\adc.h
