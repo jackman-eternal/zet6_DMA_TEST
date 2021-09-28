@@ -348,6 +348,7 @@ void conver(void)
 	  }       
 }     
 
+##　学习SPI　flash
 
 
 
