@@ -50,7 +50,7 @@ void ADC1_Init(void)
 }*/
 
   //多通道规则读取
-void ADC1_Multi_Init(void)  //开启PA0和PA3   
+void ADC1_Multi_Init(void)  //开启PA1和PA3   
 { 
 	GPIO_InitTypeDef ADC1_GPIO;
 	ADC_InitTypeDef  ADC1_Config;

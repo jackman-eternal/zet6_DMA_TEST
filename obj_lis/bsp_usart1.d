@@ -18,3 +18,4 @@
 ..\obj_lis\bsp_usart1.o: ..\Fwlib\inc\stm32f10x_usart.h
 ..\obj_lis\bsp_usart1.o: ..\Fwlib\inc\misc.h
 ..\obj_lis\bsp_usart1.o: D:\software\keil\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj_lis\bsp_usart1.o: D:\software\keil\ARM\ARMCC\Bin\..\include\string.h
