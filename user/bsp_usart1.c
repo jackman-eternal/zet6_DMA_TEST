@@ -48,11 +48,12 @@ void LED_Init(void)
   GPIO_InitTypeDef LED_GPIO; 
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
   LED_GPIO.GPIO_Mode = GPIO_Mode_Out_PP ;
+
   LED_GPIO.GPIO_Pin  = GPIO_Pin_2;
   LED_GPIO.GPIO_Speed  = GPIO_Speed_50MHz;
   GPIO_Init(GPIOA ,&LED_GPIO);  
-  //GPIO_ResetBits(GPIOA,GPIO_Pin_2);
-  GPIO_SetBits(GPIOA,GPIO_Pin_2);  	
+  GPIO_ResetBits(GPIOA,GPIO_Pin_2);
+// GPIO_SetBits(GPIOA,GPIO_Pin_2);  	
 }
 
 
