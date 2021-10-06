@@ -1,34 +1,21 @@
 #ifndef __DS18B20_H
-#define	__DS18B20_H
+#define __DS18B20_H 
+#include "sys.h"   
 
-#include "stm32f10x.h"
-#include "delay.h"
+//IO方向设置
+#define DS18B20_IO_IN()  {GPIOG->CRH&=0XFFFF0FFF;GPIOG->CRH|=8<<12;}
+#define DS18B20_IO_OUT() {GPIOG->CRH&=0XFFFF0FFF;GPIOG->CRH|=3<<12;}
+//IO操作函数											   
+#define	DS18B20_DQ_OUT PGout(11) //数据端口	PA0 
+#define	DS18B20_DQ_IN  PGin(11)  //数据端口	PA0 
+   	
+u8 DS18B20_Init(void);//初始化DS18B20
+short DS18B20_Get_Temp(void);//获取温度
+void DS18B20_Start(void);//开始温度转换
+void DS18B20_Write_Byte(u8 dat);//写入一个字节
+u8 DS18B20_Read_Byte(void);//读出一个字节
+u8 DS18B20_Read_Bit(void);//读出一个位
+u8 DS18B20_Check(void);//检测是否存在DS18B20
+void DS18B20_Rst(void);//复位DS18B20    
+#endif
 
-#define HIGH  1
-#define LOW   0
-
-#define DS18B20_CLK     RCC_APB2Periph_GPIOB
-#define DS18B20_PIN     GPIO_Pin_12                  
-#define DS18B20_PORT		GPIOB 
-
-//带参宏，可以像内联函数一样使用,输出高电平或低电平
-#define DS18B20_DATA_OUT(a)	if (a)	\
-					GPIO_SetBits(GPIOB,GPIO_Pin_12);\
-					else		\
-					GPIO_ResetBits(GPIOB,GPIO_Pin_12)
- //读取引脚的电平
-#define  DS18B20_DATA_IN()	   GPIO_ReadInputDataBit(GPIOB,GPIO_Pin_12)
-
-typedef struct
-{
-	u8  humi_int;		//湿度的整数部分
-	u8  humi_deci;	 	//湿度的小数部分
-	u8  temp_int;	 	//温度的整数部分
-	u8  temp_deci;	 	//温度的小数部分
-	u8  check_sum;	 	//校验和
-		                 
-}DS18B20_Data_TypeDef;
-
-u8 DS18B20_Init(void);
-float DS18B20_Get_Temp(void);
-#endif /* __DS18B20_H */
